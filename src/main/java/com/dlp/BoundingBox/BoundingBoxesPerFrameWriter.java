@@ -5,6 +5,7 @@ import com.dlp.DataType;
 
 import javax.xml.crypto.Data;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.file.Files;
@@ -23,6 +24,7 @@ public class BoundingBoxesPerFrameWriter {
     private String fileNamePrefix;
 
     private PrintWriter writer;
+    private File outputDirectory;
 
 
     /**
@@ -33,7 +35,7 @@ public class BoundingBoxesPerFrameWriter {
      * @param dataType
      * @param fileNamePrefix prefix that will be used when writing the CSV file name
      */
-    public BoundingBoxesPerFrameWriter(List<BoundingBoxesPerFrame> boundingBoxesPerFramesSet, List<File> imagesWithoutBoundingBoxes, String outputFilePath, DataType dataType, String fileNamePrefix) {
+    public BoundingBoxesPerFrameWriter(List<BoundingBoxesPerFrame> boundingBoxesPerFramesSet, List<File> imagesWithoutBoundingBoxes, String outputFilePath, DataType dataType, String fileNamePrefix) throws IOException {
         this.boundingBoxesPerFramesSet = boundingBoxesPerFramesSet;
         this.imagesWithoutBoundingBoxes = imagesWithoutBoundingBoxes;
         this.outputFilePath = new File(outputFilePath);
@@ -41,31 +43,26 @@ public class BoundingBoxesPerFrameWriter {
         this.fileNamePrefix = fileNamePrefix;
 
         createDirectoryIfNotExisting(this.outputFilePath);
+
+        // for example:     /User/Downloads/preprocessed_dataset    +   val_set    +    images
+        Path outputPath = Paths.get(this.outputFilePath.getAbsolutePath(), this.dataType.getSubFolderName(), DataSetConstants.OUTPUT_LABELS_SUBFOLDER);
+        outputDirectory = new File(outputPath.toString());
+        Files.createDirectories(outputDirectory.toPath());
     }
 
     public void writeBoundingBoxFiles() throws IOException {
-        // for example:     /User/Downloads/preprocessed_dataset    +   val_set    +    images
-        Path outputPath = Paths.get(outputFilePath.getAbsolutePath(), this.dataType.getSubFolderName(), DataSetConstants.OUTPUT_LABELS_SUBFOLDER);
-        File outputDirectory = new File(outputPath.toString());
-
-        Files.createDirectories(outputDirectory.toPath());
-
         for (BoundingBoxesPerFrame boundingBoxesPerFrame : this.boundingBoxesPerFramesSet) {
 
             File imageFile = boundingBoxesPerFrame.getImageFile();
             String labelFileName = getLabelFileNameFromImageFile(imageFile);
-
-            File outputLabelFile = new File(outputDirectory, labelFileName);
+            File outputLabelFile = new File(this.outputDirectory, labelFileName);
 
             writer = new PrintWriter(outputLabelFile);
 
-
             for (BoundingBox boundingBox : boundingBoxesPerFrame.getBoundingBoxes()) {
                 String newLine = boundingBox.getDarknetRepresentation();
-
                 writer.println(newLine);
             }
-
             writer.close();
         }
     }
@@ -73,15 +70,13 @@ public class BoundingBoxesPerFrameWriter {
     // writes empty files for all images which don't have any bounding boxes assigned
     public void writeEmptyBoundingBoxFiles() throws IOException {
 
-        // TODO: create empty txt files at the locations of all imagesWithoutBoundingBoxes files
+        for (File image : this.imagesWithoutBoundingBoxes) {
+            String labelFileName = getLabelFileNameFromImageFile(image);
+            File outputLabelFile = new File(this.outputDirectory, labelFileName);
 
-        // create list with  01.txt - 100.txt (DataSetConstants.NUMBER_OF_IMAGES_PER_SUB_DATASET)
-        // subtract list of files in output directory from above list
-        // all that's left are the empty files that should be written
-
-
-
-
+            writer = new PrintWriter(new FileOutputStream(outputLabelFile));
+            writer.close();
+        }
     }
 
     // returns a string like "Yangon_II_19_01.jpg"
