@@ -81,7 +81,7 @@ public class BoundingBoxesPerFrameFactory {
             prefix = "0";
         }
 
-        return prefix + frameId + "." + DataSetConstants.IMAGE_FILE_EXTENSION;
+        return prefix + frameId + DataSetConstants.IMAGE_FILE_EXTENSION;
     }
 
     // some image files might not have a motor bike in them.

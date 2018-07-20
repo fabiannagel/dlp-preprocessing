@@ -11,29 +11,23 @@ import java.util.List;
 
 public class Main {
 
+    // TODO: make this an argument
     private static final String DATASET_BASE_DIR = "/Users/fabian/Downloads/dataset";
 
+    // TODO: make this an argument
     private static final String OUTPUT_PATH = "/Users/fabian/Downloads/preprocessed_dataset";
 
     public static void main(String[] args) {
 
+        // TODO: make this an argument
         DataType dataType = DataType.VALIDATION;
 
 
         CityFactory cityFactory = new CityFactory(DATASET_BASE_DIR, dataType);
         List<City> cities = cityFactory.createCityObjects();
 
-//        for (City city : cities) {
-//            List<BoundingBox> boundingBoxes = city.getBoundingBoxes();
-//
-//            BoundingBoxesPerFrameFactory boundingBoxesPerFrameFactory = new BoundingBoxesPerFrameFactory(boundingBoxes, city);
-//            List<BoundingBoxesPerFrame> boundingBoxesPerFrameSet = boundingBoxesPerFrameFactory.getBoundingBoxesPerFrameSet();
-//
-//            List<File> imagesWithoutBoundingBoxes = boundingBoxesPerFrameFactory.getImagesWithoutBoundingBoxes();
-//
-//            assert boundingBoxesPerFrameSet.size() + imagesWithoutBoundingBoxes.size() == DataSetConstants.NUMBER_OF_IMAGES_PER_SUB_DATASET;
-//        }
 
+        // TODO: loop over all cities
         City city = cities.get(0);
 
         List<BoundingBox> boundingBoxes = city.getBoundingBoxes();
@@ -44,30 +38,16 @@ public class Main {
         List<File> imagesWithoutBoundingBoxes = boundingBoxesPerFrameFactory.getImagesWithoutBoundingBoxes();
 
 
-        BoundingBoxesPerFrameWriter writer = new BoundingBoxesPerFrameWriter(boundingBoxesPerFrameSet, imagesWithoutBoundingBoxes, OUTPUT_PATH, dataType);
+        String fileNamePrefix = city.getImagesFolder().getName();
+
+        BoundingBoxesPerFrameWriter boundingBoxWriter = new BoundingBoxesPerFrameWriter(boundingBoxesPerFrameSet, imagesWithoutBoundingBoxes, OUTPUT_PATH, dataType, fileNamePrefix);
+
+        CityImagesWriter cityImagesWriter = new CityImagesWriter(city, OUTPUT_PATH, dataType, fileNamePrefix);
 
         try {
-            writer.writeBoundingBoxFiles();
+            boundingBoxWriter.writeBoundingBoxFiles();
+            cityImagesWriter.writeImages();
 
-        } catch (IOException e) { }
-
-
-
-//        for (BoundingBoxesPerFrame boundingBoxesPerFrame : boundingBoxesPerFrameSet) {
-//            int frameId = boundingBoxesPerFrame.getFrameId();
-//            String imageFolderPath = boundingBoxesPerFrame.getImageFile().toString();
-//
-//
-//
-//
-//            System.out.println(String.valueOf(frameId) + ": " + imageFolderPath);
-//
-//            for (BoundingBox boundingBox : boundingBoxesPerFrame.getBoundingBoxes()) {
-//                System.out.println(boundingBox.getDarknetRepresentation());
-//
-//            }
-//
-//            System.out.println("====================================");
-//        }
+        } catch (IOException e) { e.printStackTrace(); }
     }
 }
