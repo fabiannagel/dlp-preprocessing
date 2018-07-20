@@ -1,6 +1,10 @@
 package com.dlp;
 
-public enum MotorbikeLabels {
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
+public enum MotorbikeLabel {
 
     // only driver
     D_HELMET("DHelmet", 0),
@@ -52,9 +56,17 @@ public enum MotorbikeLabels {
     private String identifier;
     private int classNumber;
 
-    MotorbikeLabels(String identifier, int number) {
+    MotorbikeLabel(String identifier, int number) {
         this.identifier = identifier;
         this.classNumber = number;
+    }
+
+    public static MotorbikeLabel fromIdentifier(String identifier) {
+        List<MotorbikeLabel> motorbikeLabels = Arrays.stream(MotorbikeLabel.values()).filter(ml -> ml.getIdentifier().equals(identifier)).collect(Collectors.toList());
+
+        assert motorbikeLabels.size() == 1;
+
+        return motorbikeLabels.get(0);
     }
 
     public String getIdentifier() {

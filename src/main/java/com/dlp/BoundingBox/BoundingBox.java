@@ -1,5 +1,6 @@
 package com.dlp.BoundingBox;
 
+import com.dlp.MotorbikeLabel;
 import com.opencsv.bean.CsvBindByName;
 
 public class BoundingBox {
@@ -42,8 +43,8 @@ public class BoundingBox {
         return fid;
     }
 
-    public String getLabel() {
-        return label;
+    public MotorbikeLabel getLabel() {
+        return MotorbikeLabel.fromIdentifier(this.label);
     }
 
     public int getBounding_box_x() {
@@ -73,5 +74,28 @@ public class BoundingBox {
                 ", bounding_box_x=" + bounding_box_x +
                 ", bounding_box_y=" + bounding_box_y +
                 '}';
+    }
+
+    // returns the information of this bounding box in the way darknet needs it
+    public String getDarknetRepresentation() {
+        String separator = " ";
+
+        String objectClass = String.valueOf(getLabel().getClassNumber());
+        String bounding_box_x = String.valueOf(this.bounding_box_x);
+        String bounding_box_y = String.valueOf(this.bounding_box_y);
+        String bounding_box_width = String.valueOf(this.bounding_box_width);
+        String bounding_box_height = String.valueOf(this.bounding_box_height);
+
+        String darknetRepresentation = objectClass
+                + separator
+                + bounding_box_x
+                + separator
+                + bounding_box_y
+                + separator
+                + bounding_box_width
+                + separator
+                + bounding_box_height;
+
+        return darknetRepresentation;
     }
 }
