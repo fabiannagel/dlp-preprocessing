@@ -16,6 +16,10 @@ public class CityFactory {
     public CityFactory(String datasetBaseDir, DataType dataType) {
         this.dataType = dataType;
         this.workingDirectory = Paths.get(datasetBaseDir, dataType.getSubFolderName());
+
+        if (!this.workingDirectory.toFile().exists()) {
+            throw new RuntimeException("Dataset at location " + this.workingDirectory.toString() + " does not exist");
+        }
     }
 
     public List<City> createCityObjects() {
