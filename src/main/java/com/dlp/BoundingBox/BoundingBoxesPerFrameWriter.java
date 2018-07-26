@@ -11,6 +11,7 @@ import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 
 // writes all bounding boxes of the given BoundingBoxesPerFrame object into a single file.
@@ -25,6 +26,10 @@ public class BoundingBoxesPerFrameWriter {
 
     private PrintWriter writer;
     private File outputDirectory;
+
+    // all written files, empty or not, are appended to this list
+    // they are used to create the final labels.list file with paths to all the written label files
+    private final List<File> allWrittenFiles = new ArrayList<>();
 
 
     /**
@@ -64,6 +69,8 @@ public class BoundingBoxesPerFrameWriter {
                 writer.println(newLine);
             }
             writer.close();
+
+            this.allWrittenFiles.add(outputLabelFile);
         }
     }
 
@@ -76,6 +83,18 @@ public class BoundingBoxesPerFrameWriter {
 
             writer = new PrintWriter(new FileOutputStream(outputLabelFile));
             writer.close();
+
+            this.allWrittenFiles.add(outputLabelFile);
+        }
+    }
+
+    // creates a text file containing all paths of the written label files
+    public void writeLabelsList() throws IOException {
+
+        for (File file : this.allWrittenFiles) {
+
+
+
         }
     }
 
@@ -89,23 +108,6 @@ public class BoundingBoxesPerFrameWriter {
         boolean directoryCreated = f.mkdir();
         if (!directoryCreated && !f.exists()) {
             throw new RuntimeException("Couldn't create output directory at " + f.getAbsolutePath());
-        }
-    }
-
-    public void debugOutput() {
-        for (BoundingBoxesPerFrame boundingBoxesPerFrame : this.boundingBoxesPerFramesSet) {
-            String frameId = String.valueOf(boundingBoxesPerFrame.getFrameId());
-
-            File imageFolder = boundingBoxesPerFrame.getImageFile();
-
-            System.out.println(frameId + ": " + imageFolder.getAbsolutePath().toString());
-
-            for (BoundingBox boundingBox : boundingBoxesPerFrame.getBoundingBoxes()) {
-                System.out.println(boundingBox.getDarknetRepresentation());
-
-            }
-
-            System.out.println("====================================");
         }
     }
 }

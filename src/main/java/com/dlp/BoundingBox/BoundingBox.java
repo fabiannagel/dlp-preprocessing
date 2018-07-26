@@ -48,12 +48,16 @@ public class BoundingBox {
         return MotorbikeLabel.fromIdentifier(this.label);
     }
 
+    // computes the center x coordinate from the top left x coordinate
     public int getBounding_box_x() {
-        return bounding_box_x;
+        int center_x = bounding_box_x + getBounding_box_width() / 2;
+        return center_x;
     }
 
+    // computes the center y coordinate from the top left y coordinate
     public int getBounding_box_y() {
-        return bounding_box_y;
+        int center_y = bounding_box_y + getBounding_box_height() / 2;
+        return center_y;
     }
 
     public int getBounding_box_width() {
@@ -78,7 +82,8 @@ public class BoundingBox {
     }
 
     private float computeRelativeCoordinate(int absoluteValue, int fraction) {
-        return absoluteValue / fraction;
+        float val = (float)absoluteValue / (float)fraction;
+        return val;
     }
 
     // returns the information of this bounding box in the way darknet needs it
@@ -87,16 +92,16 @@ public class BoundingBox {
 
         String objectClass = String.valueOf(getLabel().getClassNumber());
 
-        float bounding_box_x_relative = computeRelativeCoordinate(this.bounding_box_x, DataSetConstants.IMAGE_WIDTH);
+        float bounding_box_x_relative = computeRelativeCoordinate(getBounding_box_x(), DataSetConstants.IMAGE_WIDTH);
         String bounding_box_x = String.valueOf(bounding_box_x_relative);
 
-        float bounding_box_y_relative = computeRelativeCoordinate(this.bounding_box_y, DataSetConstants.IMAGE_HEIGHT);
+        float bounding_box_y_relative = computeRelativeCoordinate(getBounding_box_y(), DataSetConstants.IMAGE_HEIGHT);
         String bounding_box_y = String.valueOf(bounding_box_y_relative);
 
-        float bounding_box_w_relative = computeRelativeCoordinate(this.bounding_box_width, DataSetConstants.IMAGE_WIDTH);
+        float bounding_box_w_relative = computeRelativeCoordinate(getBounding_box_width(), DataSetConstants.IMAGE_WIDTH);
         String bounding_box_width = String.valueOf(bounding_box_w_relative);
 
-        float bounding_box_h_relative = computeRelativeCoordinate(this.bounding_box_height, DataSetConstants.HEIGHT);
+        float bounding_box_h_relative = computeRelativeCoordinate(getBounding_box_height(), DataSetConstants.IMAGE_HEIGHT);
         String bounding_box_height = String.valueOf(bounding_box_h_relative);
 
         String darknetRepresentation = objectClass
