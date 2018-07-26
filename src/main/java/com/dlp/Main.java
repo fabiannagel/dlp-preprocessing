@@ -82,7 +82,7 @@ public class Main {
             List<BoundingBoxesPerFrame> boundingBoxesPerFrameSet = boundingBoxesPerFrameFactory.getBoundingBoxesPerFrameSet();
             List<File> imagesWithoutBoundingBoxes = boundingBoxesPerFrameFactory.getImagesWithoutBoundingBoxes();
 
-            String fileNamePrefix = city.getImagesFolder().getName();
+            String fileNamePrefix = DATA_TYPE.getFileSuffix() + "_" + city.getImagesFolder().getName();
 
             try {
                 BoundingBoxesPerFrameWriter boundingBoxWriter = new BoundingBoxesPerFrameWriter(boundingBoxesPerFrameSet, imagesWithoutBoundingBoxes, OUTPUT_PATH, DATA_TYPE, fileNamePrefix);

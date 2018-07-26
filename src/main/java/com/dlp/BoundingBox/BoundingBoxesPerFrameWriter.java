@@ -88,16 +88,6 @@ public class BoundingBoxesPerFrameWriter {
         }
     }
 
-    // creates a text file containing all paths of the written label files
-    public void writeLabelsList() throws IOException {
-
-        for (File file : this.allWrittenFiles) {
-
-
-
-        }
-    }
-
     // returns a string like "Yangon_II_19_01.jpg"
     private String getLabelFileNameFromImageFile(File imageFile) {
         String imageFileName = this.fileNamePrefix + "_" + imageFile.getName();
