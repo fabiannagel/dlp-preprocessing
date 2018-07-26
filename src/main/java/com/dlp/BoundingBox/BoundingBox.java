@@ -1,5 +1,6 @@
 package com.dlp.BoundingBox;
 
+import com.dlp.DataSetConstants;
 import com.dlp.MotorbikeLabel;
 import com.opencsv.bean.CsvBindByName;
 
@@ -76,15 +77,27 @@ public class BoundingBox {
                 '}';
     }
 
+    private float computeRelativeCoordinate(int absoluteValue, int fraction) {
+        return absoluteValue / fraction;
+    }
+
     // returns the information of this bounding box in the way darknet needs it
     public String getDarknetRepresentation() {
         String separator = " ";
 
         String objectClass = String.valueOf(getLabel().getClassNumber());
-        String bounding_box_x = String.valueOf(this.bounding_box_x);
-        String bounding_box_y = String.valueOf(this.bounding_box_y);
-        String bounding_box_width = String.valueOf(this.bounding_box_width);
-        String bounding_box_height = String.valueOf(this.bounding_box_height);
+
+        float bounding_box_x_relative = computeRelativeCoordinate(this.bounding_box_x, DataSetConstants.IMAGE_WIDTH);
+        String bounding_box_x = String.valueOf(bounding_box_x_relative);
+
+        float bounding_box_y_relative = computeRelativeCoordinate(this.bounding_box_y, DataSetConstants.IMAGE_HEIGHT);
+        String bounding_box_y = String.valueOf(bounding_box_y_relative);
+
+        float bounding_box_w_relative = computeRelativeCoordinate(this.bounding_box_width, DataSetConstants.IMAGE_WIDTH);
+        String bounding_box_width = String.valueOf(bounding_box_w_relative);
+
+        float bounding_box_h_relative = computeRelativeCoordinate(this.bounding_box_height, DataSetConstants.HEIGHT);
+        String bounding_box_height = String.valueOf(bounding_box_h_relative);
 
         String darknetRepresentation = objectClass
                 + separator

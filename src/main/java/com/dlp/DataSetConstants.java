@@ -13,4 +13,9 @@ public class DataSetConstants {
     // each folder within the training or validation set contains 100 images
     public static final int NUMBER_OF_IMAGES_PER_SUB_DATASET = 100;
 
+    // TODO: change these to actual values
+
+    public static final int IMAGE_WIDTH = 400;
+
+    public static final int IMAGE_HEIGHT = 400;
 }
