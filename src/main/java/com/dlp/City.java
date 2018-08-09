@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class City {
     private File csvFile;
@@ -24,8 +25,11 @@ public class City {
 
     private void parseCsvFile() {
         try {
-            this.boundingBoxes = new CsvToBeanBuilder(new FileReader(this.csvFile))
+            List<BoundingBox> parsedBoundingBoxes = new CsvToBeanBuilder(new FileReader(this.csvFile))
                     .withType(BoundingBox.class).build().parse();
+
+            // remove all corrupted bounding boxes
+            this.boundingBoxes = parsedBoundingBoxes.stream().filter(b -> !b.isCorrupted()).collect(Collectors.toList());
         } catch (IOException e) { e.printStackTrace(); }
     }
 
