@@ -81,7 +81,9 @@ public class BoundingBox {
     // if width and height are negative or bigger than the image dimensions
     private boolean dimensionsCorrupted() {
         return this.getBounding_box_width() < 0 ||
+                this.getBounding_box_width() == 0 ||
                 this.getBounding_box_height() < 0 ||
+                this.getBounding_box_height() == 0 ||
                 this.getBounding_box_width() > DataSetConstants.IMAGE_WIDTH ||
                 this.getBounding_box_height() > DataSetConstants.IMAGE_HEIGHT;
     }

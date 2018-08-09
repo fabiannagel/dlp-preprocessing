@@ -39,7 +39,9 @@ public class CityImagesWriter {
 
             // skips existing files
             try {
-                Files.copy(sourceImage.toPath(), destinationFile.toPath());
+                if (!Main.DRY_RUN) {
+                    Files.copy(sourceImage.toPath(), destinationFile.toPath());
+                }
             } catch (FileAlreadyExistsException e) { }
 
 //            FileUtils.copyFile(sourceImage, destinationFile);

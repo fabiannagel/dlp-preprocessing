@@ -2,6 +2,7 @@ package com.dlp.BoundingBox;
 
 import com.dlp.DataSetConstants;
 import com.dlp.DataType;
+import com.dlp.Main;
 
 import javax.xml.crypto.Data;
 import java.io.File;
@@ -66,7 +67,10 @@ public class BoundingBoxesPerFrameWriter {
 
             for (BoundingBox boundingBox : boundingBoxesPerFrame.getBoundingBoxes()) {
                 String newLine = boundingBox.getDarknetRepresentation();
-                writer.println(newLine);
+
+                if (!Main.DRY_RUN) {
+                    writer.println(newLine);
+                }
             }
             writer.close();
 

@@ -43,6 +43,7 @@ public class CityFactory {
             cities.add(new City(csvFile, folder));
         }
 
+        // add file extensions here so that other files like .DS_STORE don't break anything
         assert cities.size() == folders.size();
 
         return cities;

@@ -15,6 +15,9 @@ public class Main {
     private static String OUTPUT_PATH;
     private static DataType DATA_TYPE;
 
+    // prevents disk writes for debugging
+    public static boolean DRY_RUN = false;
+
     public static void main(String[] args) {
 
         Options options = new Options();
