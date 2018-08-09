@@ -38,6 +38,8 @@ public class Main {
         HelpFormatter formatter = new HelpFormatter();
         CommandLine cmd;
 
+        if (DRY_RUN) printDryRunWarning();
+
         try {
             cmd = parser.parse(options, args);
 
@@ -109,5 +111,19 @@ public class Main {
 
         String format = "%-20s%s%n";
         System.out.printf(format, prefix, message);
+    }
+
+    private static void printDryRunWarning() {
+        String ANSI_RED = "\u001B[31m";
+        String ANSI_RESET = "\u001B[0m";
+
+        System.out.println();
+        System.out.println(ANSI_RED + "WARNING" + ANSI_RESET);
+        System.out.println(ANSI_RED + "Dry run is enabled. Nothing will be written to disk!" + ANSI_RESET);
+        System.out.println();
+
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) { }
     }
 }
