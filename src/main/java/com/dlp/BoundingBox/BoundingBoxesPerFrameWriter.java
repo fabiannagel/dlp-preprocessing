@@ -65,6 +65,11 @@ public class BoundingBoxesPerFrameWriter {
             writer = new PrintWriter(outputLabelFile);
 
             for (BoundingBox boundingBox : boundingBoxesPerFrame.getBoundingBoxes()) {
+
+                if (boundingBox.isCorrupted()) {
+                    continue;
+                }
+
                 String newLine = boundingBox.getDarknetRepresentation();
                 writer.println(newLine);
             }

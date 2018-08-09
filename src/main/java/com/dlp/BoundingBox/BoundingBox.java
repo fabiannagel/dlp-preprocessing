@@ -68,6 +68,24 @@ public class BoundingBox {
         return bounding_box_height;
     }
 
+    public boolean isCorrupted() {
+        return coordinatesCorrupted() || dimensionsCorrupted();
+    }
+
+    // if x or y are bigger than they should be
+    private boolean coordinatesCorrupted() {
+        return this.bounding_box_x > DataSetConstants.IMAGE_WIDTH ||
+                this.bounding_box_y > DataSetConstants.IMAGE_HEIGHT;
+    }
+
+    // if width and height are negative or bigger than the image dimensions
+    private boolean dimensionsCorrupted() {
+        return this.getBounding_box_width() < 0 ||
+                this.getBounding_box_height() < 0 ||
+                this.getBounding_box_width() > DataSetConstants.IMAGE_WIDTH ||
+                this.getBounding_box_height() > DataSetConstants.IMAGE_HEIGHT;
+    }
+
     @Override
     public String toString() {
         return "BoundingBox{" +
