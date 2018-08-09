@@ -69,7 +69,7 @@ public class BoundingBox {
     }
 
     public boolean isCorrupted() {
-        return coordinatesCorrupted() || dimensionsCorrupted();
+        return coordinatesCorrupted() || dimensionsCorrupted() || dimensionsToSmall();
     }
 
     // if x or y are bigger than they should be
@@ -86,6 +86,11 @@ public class BoundingBox {
                 this.getBounding_box_height() == 0 ||
                 this.getBounding_box_width() > DataSetConstants.IMAGE_WIDTH ||
                 this.getBounding_box_height() > DataSetConstants.IMAGE_HEIGHT;
+    }
+
+    private boolean dimensionsToSmall() {
+        return this.getBounding_box_width() < 10 ||
+                this.getBounding_box_height() < 10;
     }
 
     @Override
