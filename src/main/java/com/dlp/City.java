@@ -28,8 +28,12 @@ public class City {
             List<BoundingBox> parsedBoundingBoxes = new CsvToBeanBuilder(new FileReader(this.csvFile))
                     .withType(BoundingBox.class).build().parse();
 
+            // save ALL bounding boxes here but return only the non-corrupted ones in the corresponding
+            // BoundingBoxesPerFrame object
+            this.boundingBoxes = parsedBoundingBoxes;
+
             // remove all corrupted bounding boxes
-            this.boundingBoxes = parsedBoundingBoxes.stream().filter(b -> !b.isCorrupted()).collect(Collectors.toList());
+            // this.boundingBoxes = parsedBoundingBoxes.stream().filter(b -> !b.isCorrupted()).collect(Collectors.toList());
         } catch (IOException e) { e.printStackTrace(); }
     }
 

@@ -16,7 +16,7 @@ public class Main {
     private static DataType DATA_TYPE;
 
     // prevents disk writes for debugging
-    public static boolean DRY_RUN = false;
+    public static boolean DRY_RUN = true;
 
     public static void main(String[] args) {
 
@@ -123,7 +123,7 @@ public class Main {
         System.out.println();
 
         try {
-            Thread.sleep(5000);
+            Thread.sleep(2000);
         } catch (InterruptedException e) { }
     }
 }
