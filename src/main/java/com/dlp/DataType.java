@@ -1,7 +1,7 @@
 package com.dlp;
 
 public enum DataType {
-    TRAINING("training_set", "training"), VALIDATION("val_set", "validation");
+    TRAINING("training_set", "training"), VALIDATION("val_set", "validation"), TEST("test_set", "test");
 
     private String subFolderName;   // the subfolder in which the data will be written
     private String fileSuffix;      // the suffix which will be in every output file (so we can separate between validation and training files)

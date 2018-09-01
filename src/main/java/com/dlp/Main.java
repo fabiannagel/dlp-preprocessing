@@ -16,7 +16,7 @@ public class Main {
     private static DataType DATA_TYPE;
 
     // prevents disk writes for debugging
-    public static boolean DRY_RUN = true;
+    public static boolean DRY_RUN = false;
 
     public static void main(String[] args) {
 
@@ -51,6 +51,8 @@ public class Main {
                 DATA_TYPE = DataType.TRAINING;
             } else if (dataModeString.toLowerCase().equals("validation")) {
                 DATA_TYPE = DataType.VALIDATION;
+            } else if (dataModeString.toLowerCase().equals("test")) {
+                DATA_TYPE = DataType.TEST;
             } else {
                 throw new ParseException("The requested data_mode is unknown");
             }
