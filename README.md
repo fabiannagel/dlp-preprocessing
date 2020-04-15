@@ -14,3 +14,5 @@ This tool:
 - performs some data cleaning for obvious labeling errors, e.g. negative bounding box dimensions
 - transforms absolute bounding box coordinates to relative dimensions 
 - converts everything to a representation that we can use with darknet
+
+Due to copyright claims, I'm unfortunately not allowed to publish the dataset for which this tool was built.
