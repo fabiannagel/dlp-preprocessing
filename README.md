@@ -15,4 +15,4 @@ This tool:
 - transforms absolute bounding box coordinates to relative dimensions 
 - converts everything to a representation that we can use with darknet
 
-Due to copyright claims, I'm unfortunately not allowed to publish the dataset for which this tool was built.
+Due to copyright claims, I'm unfortunately not allowed to publish the dataset for which this tool was built. However, [here's a short video](https://youtu.be/M4jsc0epBKo) that demonstrates our trained model in action. 
